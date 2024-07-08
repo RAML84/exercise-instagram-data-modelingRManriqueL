@@ -17,38 +17,34 @@ class User(Base):
     lastname = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
 
-
 class Followers(Base):
     __tablename__ = 'Followers'
     id = Column(Integer, primary_key=True)
     user_from_id = Column(Integer, ForeignKey('User.id'), nullable=False)
     user_to_id = Column(Integer, ForeignKey('User.id'), nullable=False)
     
-
 class Media(Base):
     __tablename__ = 'Media'
     id = Column(Integer, primary_key=True)
     type = Column(Enum, nullable=False)
     url = Column (String(250), ForeignKey('User.id'), nullable=(False))
     post_id = Column(Integer, ForeignKey('Post.id'), nullable=(False))
-    
-
 
 class Post(Base):
     __tablename__ = 'Post'
+    # Here we define columns for the table address.
+    # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
     User_id = Column(Integer, ForeignKey('User.id'), nullable=(False))
 
-
-
 class Comment(Base):
     __tablename__ = 'Comment'
+    # Here we define columns for the table address.
+    # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
     comment_text = Column(String(250), nullable=False)
     author_id = Column(Integer, ForeignKey('User.id'), nullable=False)
     post_id = Column(Integer, ForeignKey('Post.id'), nullable=False)
-
-
 
     def to_dict(self):
         return {}
