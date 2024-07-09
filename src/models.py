@@ -1,9 +1,15 @@
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String, Enum
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
 from eralchemy2 import render_er
+
+
+
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
 
 Base = declarative_base()
 
@@ -22,13 +28,6 @@ class Followers(Base):
     id = Column(Integer, primary_key=True)
     user_from_id = Column(Integer, ForeignKey('User.id'), nullable=False)
     user_to_id = Column(Integer, ForeignKey('User.id'), nullable=False)
-    
-class Media(Base):
-    __tablename__ = 'Media'
-    id = Column(Integer, primary_key=True)
-    type = Column(Enum, nullable=False)
-    url = Column (String(250), ForeignKey('User.id'), nullable=(False))
-    post_id = Column(Integer, ForeignKey('Post.id'), nullable=(False))
 
 class Post(Base):
     __tablename__ = 'Post'
@@ -45,6 +44,13 @@ class Comment(Base):
     comment_text = Column(String(250), nullable=False)
     author_id = Column(Integer, ForeignKey('User.id'), nullable=False)
     post_id = Column(Integer, ForeignKey('Post.id'), nullable=False)
+
+class Media(Base):
+    __tablename__ = "media"
+    id = Column(Integer, primary_key=True)
+    type = Column(String(250), nullable=False)
+    url = Column(String(250), nullable=False)
+    post_id = Column(Integer, ForeignKey("post_id"), nullable=False)
 
     def to_dict(self):
         return {}
